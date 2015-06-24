@@ -30,42 +30,34 @@ angular.module('eventer', ['ionic', 'eventer.controllers', 'eventer.database_tes
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: "/search",
+  .state('app.events', {
+    url: "/events",
     views: {
       'menuContent': {
-        templateUrl: "templates/search.html"
+        templateUrl: "templates/events.html",
+        controller: 'EventsCtrl as vm'
       }
     }
   })
-
-  .state('app.browse', {
-    url: "/browse",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/browse.html"
-      }
-    }
-  })
-    .state('app.playlists', {
-      url: "/playlists",
+    .state('app.users', {
+      url: "/users",
       views: {
         'menuContent': {
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
+          templateUrl: "templates/users.html",
+          controller: 'UsersCtrl as vm'
         }
       }
     })
 
-  .state('app.single', {
-    url: "/playlists/:playlistId",
+  .state('app.event', {
+    url: "/event/:eventId",
     views: {
       'menuContent': {
-        templateUrl: "templates/playlist.html",
-        controller: 'PlaylistCtrl'
+        templateUrl: "templates/event.html",
+        controller: 'EventCtrl as vm'
       }
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/events');
 });

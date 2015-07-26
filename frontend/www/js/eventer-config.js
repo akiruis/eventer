@@ -5,7 +5,7 @@ angular.module('eventer.config', [])
 function configFactory() {
    var config = {};
 
-   config.apiKey = 'Ine';
+   config.apiKey = 'Test';
    config.clientKey = 'Insert your Parse.com Client key here';
 
    return config;

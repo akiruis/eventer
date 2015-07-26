@@ -1,0 +1,53 @@
+
+<ion-view>
+  <div class="bar bar-header bar-light">
+    <h1 class="title">Signup</h1>
+  </div>
+
+  <ion-content class="has-header">
+    <script id="error-messages.html" type="text/ng-template">
+      <div ng-message="required">You left the field blank...</div>
+      <div ng-message="minlength">Your field is too short</div>
+      <div ng-message="maxlength">Your field is too long</div>
+      <div ng-message="email">Your field has an invalid email address</div>
+    </script>
+    <form class="padding-top-20" name="vm.signupForm" novalidate="" ng-submit="vm.doSignup()" >
+      <div class="list">
+
+        <label class="item item-input">
+          <input type="text" ng-model="vm.signupData.firstName" name="firstName" placeholder="First name" required>
+        </label>
+        <div ng-show="vm.signupForm.firstName.$error && vm.signupForm.$submitted" ng-messages="vm.signupForm.firstName.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+        <label class="item item-input">
+          <input type="text" ng-model="vm.signupData.lastName" name="lastName" placeholder="Last name" required>
+        </label>
+        <div ng-show="vm.signupForm.lastName.$error && vm.signupForm.$submitted" ng-messages="vm.signupForm.lastName.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+        <label class="item item-input">
+          <input type="email" ng-model="vm.signupData.username" name="username" placeholder="Email" required>
+        </label>
+        <div ng-show="vm.signupForm.username.$error && vm.signupForm.$submitted" ng-messages="vm.signupForm.username.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+        <label class="item item-input">
+          <input type="password" ng-model="vm.signupData.password" name="password" placeholder="Password" required>
+        </label>
+        <div ng-show="vm.signupForm.password.$error && vm.signupForm.$submitted" ng-messages="vm.signupForm.password.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+        <label class="item item-input">
+          <input type="password" ng-model="vm.signupData.password2" name="password2" placeholder="Retype password" required>
+        </label>
+        <div ng-show="vm.signupForm.password2.$error && vm.signupForm.$submitted" ng-messages="vm.signupForm.password2.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+        <label class="item">
+          <button class="button button-outline button-positive button-full" type="submit">Signup</button>
+          </label>
+        </label>
+        <div ng-if="vm.signupError" class="assertive">{{ vm.signupError }}</div>
+      </div>
+    </form>
+    <br>
+
+  </ion-content>
+
+</ion-view>

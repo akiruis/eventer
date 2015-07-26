@@ -1,25 +1,45 @@
-<ion-modal-view>
-  <ion-header-bar>
-    <h1 class="title">Login</h1>
-    <div class="buttons">
-      <button class="button button-clear" ng-click="closeLogin()">Close</button>
-    </div>
-  </ion-header-bar>
-  <ion-content>
-    <form ng-submit="doLogin()">
+<ion-view view-title="Login">
+  <div class="bar bar-header bar-light">
+    <h1 class="title">Eventer</h1>
+  </div>
+
+  <ion-content class="has-header">
+    <script id="error-messages.html" type="text/ng-template">
+      <div ng-message="required">You left the field blank...</div>
+      <div ng-message="minlength">Your field is too short</div>
+      <div ng-message="maxlength">Your field is too long</div>
+      <div ng-message="email">Your field has an invalid email address</div>
+    </script>
+    <form class="padding-top-20" name="vm.loginForm" novalidate="" ng-submit="vm.doLogin()" >
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username">
+          <input type="email" ng-model="vm.loginData.username" name="username" placeholder="Email" required>
         </label>
+        <div ng-show="vm.loginForm.username.$error && vm.loginForm.$submitted" ng-messages="vm.loginForm.username.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
         <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password">
+          <input type="password" ng-model="vm.loginData.password" name="password" placeholder="Password" required>
         </label>
+        <div ng-show="vm.loginForm.password.$error && vm.loginForm.$submitted" ng-messages="vm.loginForm.password.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+        
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Log in</button>
+          <button class="button button-outline button-positive button-full" type="submit">Log in</button>
         </label>
+        <div ng-if="vm.loginError" class="assertive">{{ vm.loginError }}</div>
       </div>
     </form>
+    <br>
+
+    <p class="padding-left" style="font-size: 80%;">
+      New user? <br>
+      <a ui-sref="signup">Signup here.</a>
+    </p>
+
+    <p class="padding-left" style="font-size: 80%;">
+      Forgot password? <br>
+      <a ng-click="vm.resetPassword()" href="#">Request an email to reset password.</a> <br>
+      <div ng-if="vm.passwordResetError" class="assertive">{{ vm.passwordResetError }}</div>
+      <div ng-if="vm.passwordResetSuccess" class="calm">Email has been sent, see your inbox.</div>
+    </p>
   </ion-content>
-</ion-modal-view>
+</ion-view>

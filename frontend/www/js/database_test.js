@@ -29,42 +29,63 @@ function dbApi(){
       '2' : {
         'date': new Date('2015-08-25:20:00'),
         'hostId': 2,
-        'notes': 'Welcome! BYOB!'
+        'notes': 'Enter through side gate.'
       }
     },
     'eventParticipants' : [
-      {'eventId:'1, 'userId': 1, 'isComing': true, 'notes': 'I\'m the host, duh!'},
-      {'eventId:'1, 'userId': 2, 'isComing': true, 'notes': 'I\'m in'},
-      {'eventId:'2, 'userId': 2, 'isComing': true, 'notes': ''},
-      {'eventId:'2, 'userId': 1, 'isComing': true, 'notes': 'Sorry have to be some where else'},
+      {'eventId': 1, 'userId': 1, 'isComing': true, 'notes': 'I\'m the host, duh!'},
+      {'eventId': 1, 'userId': 2, 'isComing': true, 'notes': 'I\'m in'},
+      {'eventId': 2, 'userId': 2, 'isComing': true, 'notes': ''},
+      {'eventId': 2, 'userId': 1, 'isComing': false, 'notes': 'Sorry have to be some where else'},
     ]
-  }
+  };
 
   var api = {
-    'events': function () {
-      var resp = [];
-      Object.keys(database.events).forEach(function(eventId){
-        var event = angular.copy(database.events[eventId]);
-        event.id = eventId;
-        event.participants = _.filter(database.eventParticipants, {'eventId': eventId});
-        resp.push(event);
-      });
-      return resp;
-    },
-    'eventById': function (id) {
-      if(!id || !database.events[id]){
-        return;
+    'event': {
+      'events': function () {
+        var resp = [];
+        Object.keys(database.events).forEach(function(eventId){
+          var event = angular.copy(database.events[eventId]);
+          event.id = eventId;
+          event.participants = _.filter(database.eventParticipants, {'eventId': parseInt(eventId, 10)});
+          event.host = database.users[event.hostId];
+          resp.push(event);
+        });
+        return resp;
+      },
+      'eventById': function (id) {
+        if(!id || !database.events[id]){
+          return;
+        }
+        var event = angular.copy(database.events[id]);
+        event.id = id;
+        event.participants = _.filter(database.eventParticipants, {'eventId': parseInt(id, 10)});
+        event.host = database.users[event.hostId];
+        return event;
+      },
+      'addEvent': function(event){
+        if(!event || !event.date || NaN == Date.parse(event.date)){
+          return;
+        }
+        if(!event.userId || !database.users[event.userId]){
+          return;
+        }
+        var nextKey = database.events.Keys().sort(function(a,b){return b-a;})[0]+1;
+        database.events[nextKey] = {
+          'date': Date.parse(event.date),
+          'hostId': event.hostId,
+          'notes': event.notes
+        }
       }
-      var resp = angular.copy(database.events[eventId]);
-      resp.participants = _.filter(database.eventParticipants, {'eventId': id});
     },
-    'users': function () {
+    'user': {
+      'users': function () {
 
-    },
-    'userById': function (id) {
+      },
+      'userById': function (id) {
 
+      }
     }
-
   };
 
   return api;

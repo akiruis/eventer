@@ -4,3 +4,6 @@
 node_modules/
 platforms/
 plugins/
+
+# We do not upload our config file
+#eventer-config.js

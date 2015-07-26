@@ -1,0 +1,38 @@
+<ion-view view-title="User">
+  <ion-content>
+    <div class="list card">
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-person"></i>
+        {{ vm.user.firstName }} {{ vm.user.lastName }}
+      </a>
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-home"></i>
+        {{ vm.user.address }}
+      </a>
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-ios-telephone"></i>
+        {{ vm.user.phone }}
+      </a>
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-email"></i>
+        {{ vm.user.email }}
+      </a>
+
+      <a href="#" class="item item-icon-left">
+        <i class="icon ion-card"></i>
+        Enter card information
+      </a>
+
+    </div>
+    <ion-list>
+      <ion-item ng-repeat="user in vm.user.participants" href="#/app/user/{{user.id}}">
+        <h2><i class="icon" ng-class="{'ion-checkmark-round': user.isComing, 'ion-close-round': !user.isComing}"></i> {{ user.firstName }}</h2>
+        <h3>{{ user.comment }}</h3>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

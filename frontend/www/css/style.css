@@ -20,3 +20,16 @@
 
 .padding-left-20, .padding-horizontal-20 {
   padding-left: 20px; }
+
+.login-help {
+    position: fixed;
+    bottom: 0;
+}
+
+.tiny-text {
+  font-size: 0.6em;
+}
+
+.angular-google-map-container { 
+  height: 400px; 
+}

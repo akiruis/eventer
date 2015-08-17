@@ -1,6 +1,7 @@
 angular.module('eventer.controllers')
+.controller('SignupCtrl', ['$state', '$timeout', SignupCtrl]);
 
-.controller('SignupCtrl', ['$scope', '$state', '$timeout', function($scope, $state, $timeout) {
+function SignupCtrl($state, $timeout) {
 
   var vm = this;
 
@@ -19,19 +20,20 @@ angular.module('eventer.controllers')
     }
 
     var user = new Parse.User();
+    user.set('firstName', vm.signupData.firstName);
+    user.set('lastName', vm.signupData.lastName); 
     user.set('username', vm.signupData.username);
     user.set('password', vm.signupData.password);
     user.set('email', vm.signupData.username);
 
     user.signUp(null, {
       success: function(user) {
-        $state.go('app.events');
+        $state.go('app.user', {'id': user.id});
       },
       error: function(user, error) {
         vm.signupError = error.message;
-        $scope.$apply();
       }
     });
   };
 
-}]);
+}

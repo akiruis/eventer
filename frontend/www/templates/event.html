@@ -1,38 +1,87 @@
 <ion-view view-title="Event">
+  <ion-nav-buttons side="secondary">
+    <button ng-if="!vm.editMode" class="button button-icon button-clear ion-edit" ng-click="vm.enableEdit()">
+    </button>
+  </ion-nav-buttons>
   <ion-content>
-    <div class="list card">
+    <div ng-if="!vm.editMode">
+      <div class="list card">
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-person"></i>
-        {{ vm.event.host.firstName }} {{ vm.event.host.lastName }}
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-clock"></i>
+          {{ vm.event.date | date:'medium' }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-home"></i>
-        {{ vm.event.host.address }}
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-person"></i>
+          {{ vm.event.host.firstName }} {{ vm.event.host.lastName }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-ios-telephone"></i>
-        {{ vm.event.host.phone }}
-      </a>
+        <a ui-sref="app.location({id: vm.event.id})" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          {{ vm.event.host.address }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-email"></i>
-        {{ vm.event.host.email }}
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-ios-telephone"></i>
+          {{ vm.event.host.phone }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-card"></i>
-        Enter card information
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-email"></i>
+          {{ vm.event.host.email }}
+        </a>
 
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-card"></i>
+          {{ vm.event.notes }}
+        </a>
+
+      </div>
+      <ion-list>
+        <ion-item ng-repeat="user in vm.event.participants" href="#/app/user/{{user.id}}">
+          <h2><i class="icon" ng-class="{'ion-checkmark-round': user.isComing, 'ion-close-round': !user.isComing}"></i> {{ user.firstName }}</h2>
+          <h3>{{ user.comment }}</h3>
+        </ion-item>
+      </ion-list>
     </div>
-    <ion-list>
-      <ion-item ng-repeat="user in vm.event.participants" href="#/app/user/{{user.id}}">
-        <h2><i class="icon" ng-class="{'ion-checkmark-round': user.isComing, 'ion-close-round': !user.isComing}"></i> {{ user.firstName }}</h2>
-        <h3>{{ user.comment }}</h3>
-      </ion-item>
-    </ion-list>
+
+  <!-- We have edit form here -->
+    <div ng-if="vm.editMode">
+      <script id="error-messages.html" type="text/ng-template">
+        <div ng-message="required">You left the field blank...</div>
+        <div ng-message="minlength">Your field is too short</div>
+        <div ng-message="maxlength">Your field is too long</div>
+        <div ng-message="email">Your field has an invalid email address</div>
+      </script>
+      <form class="padding-top-20" name="vm.eventForm" novalidate="" >
+        <div class="list">
+
+          <label class="item item-input">
+            <input type="date" ng-model="vm.eventEdit.date" name="date" placeholder="Date" required>
+          </label>
+          <div ng-show="vm.eventForm.date.$error && vm.eventForm.$submitted" ng-messages="vm.eventForm.date.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item item-input">
+            <input type="time" ng-model="vm.eventEdit.time" name="time" placeholder="Time" required ng-change="vm.mergeTimeAndDate()">
+          </label>
+          <div ng-show="vm.eventForm.time.$error && vm.eventForm.$submitted" ng-messages="vm.eventForm.time.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item item-input">
+            <!--<input type="text" ng-model="vm.eventEdit.notes" name="notes" placeholder="Notes...">-->
+            <textarea ng-model="vm.eventEdit.notes" name="notes" placeholder="Notes..." rows="2"></textarea>
+          </label>
+          <div ng-show="vm.eventForm.notes.$error && vm.eventForm.$submitted" ng-messages="vm.eventForm.notes.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <div class="button-bar">
+            <a class="button button-small button-outline blue-text" type="submit" ng-click="vm.editUpdate()">{{vm.updateButtonText}}</a>
+            <a class="button button-small button-outline" ng-click="vm.editCancel()">Cancel</a>
+          </div>
+
+         <div ng-if="vm.errorMessage" class="assertive">{{ vm.errorMessage }}</div>
+        </div>
+      </form>
+    </div>
+
   </ion-content>
 </ion-view>

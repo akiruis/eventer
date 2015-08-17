@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'eventer.config'])
+angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'eventer.config', 'parse-angular', 'uiGmapgoogle-maps'])
 
 .run(['$rootScope', '$state', '$ionicPlatform', 'configFactory', function($rootScope, $state, $ionicPlatform, clientConfig) {
 
@@ -35,8 +35,10 @@ angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'evente
   });
 
 }])
-.config(['$stateProvider', '$urlRouterProvider', 
-  function($stateProvider, $urlRouterProvider, cc) {
+.config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', 
+  function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.views.maxCache(0);
 
   $stateProvider
   
@@ -93,6 +95,15 @@ angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'evente
         controller: 'EventCtrl as vm'
       }
     }
+  })
+  .state('app.location', {
+    url: "/location/:id",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/location.html",
+        controller: 'LocationCtrl as vm'
+      }
+    }
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
@@ -115,7 +126,7 @@ angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'evente
   // Credits: Adam's answer in http://stackoverflow.com/a/20786262/69362
   // Paste this in browser's console
   //var $rootScope = angular.element(document.querySelectorAll("[ion-nav-view]")[0]).injector().get('$rootScope');
-
+/*
   $rootScope.$on('$stateChangeStart',function(event, toState, toParams, fromState, fromParams){
     console.log('$stateChangeStart to '+toState.to+'- fired when the transition begins. toState,toParams : \n',toState, toParams);
   });
@@ -137,4 +148,5 @@ angular.module('eventer', ['ionic', 'ngMessages', 'eventer.controllers', 'evente
     console.log('$stateNotFound '+unfoundState.to+'  - fired when a state cannot be found by its name.');
     console.log(unfoundState, fromState, fromParams);
   });
+*/
 }]);

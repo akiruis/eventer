@@ -1,45 +1,54 @@
 <ion-view view-title="Login">
-  <div class="bar bar-header bar-light">
-    <h1 class="title">Eventer</h1>
-  </div>
 
-  <ion-content class="has-header">
-    <script id="error-messages.html" type="text/ng-template">
-      <div ng-message="required">You left the field blank...</div>
-      <div ng-message="minlength">Your field is too short</div>
-      <div ng-message="maxlength">Your field is too long</div>
-      <div ng-message="email">Your field has an invalid email address</div>
-    </script>
-    <form class="padding-top-20" name="vm.loginForm" novalidate="" ng-submit="vm.doLogin()" >
-      <div class="list">
-        <label class="item item-input">
-          <input type="email" ng-model="vm.loginData.username" name="username" placeholder="Email" required>
-        </label>
-        <div ng-show="vm.loginForm.username.$error && vm.loginForm.$submitted" ng-messages="vm.loginForm.username.$error" ng-messages-include="error-messages.html" class="assertive"></div>
 
-        <label class="item item-input">
-          <input type="password" ng-model="vm.loginData.password" name="password" placeholder="Password" required>
-        </label>
-        <div ng-show="vm.loginForm.password.$error && vm.loginForm.$submitted" ng-messages="vm.loginForm.password.$error" ng-messages-include="error-messages.html" class="assertive"></div>
-        
-        <label class="item">
-          <button class="button button-outline button-positive button-full" type="submit">Log in</button>
-        </label>
-        <div ng-if="vm.loginError" class="assertive">{{ vm.loginError }}</div>
+  <ion-content>
+      <div class="row">
+        <div class="col s12 m7">
+          <div class="card small">
+            <div class="card-image">
+              <img src="img/login_p_small.jpg">
+              <span class="card-title">Eventer</span>
+            </div>
+            
+                          <form id="vmloginForm" name="vm.loginForm" novalidate>
+
+            <div class="card-content" style="font-size: 0.6em">
+
+                <div class="row">
+                  <div class="input-field col s6">
+                    <input type="email" ng-model="vm.loginData.username" id="username" name="username" required class="validate">
+                    <label for="username">Email</label>
+                  </div>
+                  <div class="input-field col s6">
+                    <input type="password" ng-model="vm.loginData.password" id="password" name="password" required class="validate">
+                    <label for="password">Password</label>
+                  </div>
+                </div>
+
+            </div>
+            <div class="card-action">
+              <a ng-click="vm.doLogin()">Login</a>
+            
+              <div ng-if="vm.loginData.inProgress" class="progress">
+                <div class="indeterminate"></div>
+              </div>
+              <span ng-show="vm.loginError" class="tiny-text assertive">{{ vm.loginError }}</span>
+            </div>
+                          </form>
+          </div>
+        </div>
       </div>
-    </form>
+
     <br>
+    </div>
 
-    <p class="padding-left" style="font-size: 80%;">
-      New user? <br>
-      <a ui-sref="signup">Signup here.</a>
-    </p>
+    <br>
+    <p>&nbsp;</p>
 
-    <p class="padding-left" style="font-size: 80%;">
-      Forgot password? <br>
-      <a ng-click="vm.resetPassword()" href="#">Request an email to reset password.</a> <br>
-      <div ng-if="vm.passwordResetError" class="assertive">{{ vm.passwordResetError }}</div>
-      <div ng-if="vm.passwordResetSuccess" class="calm">Email has been sent, see your inbox.</div>
-    </p>
   </ion-content>
+
+  <div class="button-bar login-help">
+    <a class="button button-small button-outline blue-text" ui-sref="signup">Sign Up</a>
+    <a class="button button-small button-outline" ng-click="vm.resetPassword()">Forgot Password</a>
+  </div>
 </ion-view>

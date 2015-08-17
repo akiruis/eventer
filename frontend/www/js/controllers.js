@@ -1,6 +1,6 @@
 angular.module('eventer.controllers', [])
 
-.controller('AppCtrl', ['$scope', '$state', function($scope, $state) {
+.controller('AppCtrl', ['$state', function($state) {
   var vm = this;
   
   // With the new view caching in Ionic, Controllers are only called
@@ -10,6 +10,8 @@ angular.module('eventer.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
   
+  vm.userId = Parse.User.current().id;
+
   vm.logout = function(){
     if(Parse.User.current()){
       Parse.User.logOut();
@@ -19,31 +21,11 @@ angular.module('eventer.controllers', [])
   
 }])
 
-.controller('EventsCtrl',[EventsCtrl])
-.controller('EventCtrl',['$stateParams', EventCtrl])
+
 .controller('UsersCtrl',[UsersCtrl])
-.controller('UserCtrl',['$stateParams', UserCtrl]);
-
-function EventsCtrl() {
-  var vm = this;
-
-  vm.events = [];
-}
-
-function EventCtrl($stateParams) {
-  var vm = this;
-
-  vm.event = {};
-}
 
 function UsersCtrl() {
   var vm = this;
 
   vm.users = [];
-}
-
-function UserCtrl($stateParams) {
-  var vm = this;
-
-  vm.user = {};
 }

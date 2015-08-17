@@ -1,38 +1,83 @@
-<ion-view view-title="User">
+<ion-view view-title="User Details">
+  
   <ion-content>
-    <div class="list card">
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-person"></i>
-        {{ vm.user.firstName }} {{ vm.user.lastName }}
-      </a>
+    <div ng-if="!vm.editMode">
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-home"></i>
-        {{ vm.user.address }}
-      </a>
+      <div class="list card">
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-ios-telephone"></i>
-        {{ vm.user.phone }}
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-person"></i>
+          {{ vm.user.firstName }} {{ vm.user.lastName }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-email"></i>
-        {{ vm.user.email }}
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-home"></i>
+          {{ vm.user.address }}
+        </a>
 
-      <a href="#" class="item item-icon-left">
-        <i class="icon ion-card"></i>
-        Enter card information
-      </a>
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-ios-telephone"></i>
+          {{ vm.user.phone }}
+        </a>
 
+        <a href="#" class="item item-icon-left">
+          <i class="icon ion-email"></i>
+          {{ vm.user.email }}
+        </a>
+
+      </div>
+      <button ng-if="vm.isMe" class="button button-outline button-positive button-full" ng-click="vm.editUser()">Edit</button>
+      <ion-list>
+        <ion-item ng-repeat="user in vm.user.participants" href="#/app/user/{{user.id}}">
+          <h2><i class="icon" ng-class="{'ion-checkmark-round': user.isComing, 'ion-close-round': !user.isComing}"></i> {{ user.firstName }}</h2>
+          <h3>{{ user.comment }}</h3>
+        </ion-item>
+      </ion-list>
     </div>
-    <ion-list>
-      <ion-item ng-repeat="user in vm.user.participants" href="#/app/user/{{user.id}}">
-        <h2><i class="icon" ng-class="{'ion-checkmark-round': user.isComing, 'ion-close-round': !user.isComing}"></i> {{ user.firstName }}</h2>
-        <h3>{{ user.comment }}</h3>
-      </ion-item>
-    </ion-list>
+
+<!-- We have edit form here -->
+    <div ng-if="vm.editMode">
+      <script id="error-messages.html" type="text/ng-template">
+        <div ng-message="required">You left the field blank...</div>
+        <div ng-message="minlength">Your field is too short</div>
+        <div ng-message="maxlength">Your field is too long</div>
+        <div ng-message="email">Your field has an invalid email address</div>
+      </script>
+      <form class="padding-top-20" name="vm.userForm" novalidate="" >
+        <div class="list">
+
+          <label class="item item-input">
+            <input type="text" ng-model="vm.userEdit.firstName" name="firstName" placeholder="First name" required>
+          </label>
+          <div ng-show="vm.signupForm.firstName.$error && vm.userForm.$submitted" ng-messages="vm.userForm.firstName.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item item-input">
+            <input type="text" ng-model="vm.userEdit.lastName" name="lastName" placeholder="Last name" required>
+          </label>
+          <div ng-show="vm.userForm.lastName.$error && vm.userForm.$submitted" ng-messages="vm.userForm.lastName.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item item-input">
+            <input type="text" ng-model="vm.userEdit.address" name="address" placeholder="Address" required>
+          </label>
+          <div ng-show="vm.userForm.address.$error && vm.userForm.$submitted" ng-messages="vm.userForm.address.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item item-input">
+            <input type="tel" ng-model="vm.userEdit.phone" name="phone" placeholder="Phone" required>
+          </label>
+          <div ng-show="vm.userForm.phone.$error && vm.userForm.$submitted" ng-messages="vm.userForm.phone.$error" ng-messages-include="error-messages.html" class="assertive"></div>
+
+          <label class="item">
+            <button class="button button-outline button-balanced button-full" type="submit" ng-click="vm.editUpdate()">Update</button>
+          </label>
+
+          <label class="item">
+            <button class="button button-outline button-assertive button-full" ng-click="vm.editCancel()">Cancel</button>
+          </label>
+
+          <div ng-if="vm.errorMessage" class="assertive">{{ vm.errorMessage }}</div>
+        </div>
+      </form>
+    </div>
   </ion-content>
 </ion-view>
